@@ -13,3 +13,17 @@ function getExpenses(PDO $pdo, int $userId): array
 
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function saveExpense(PDO $pdo, string $title, float $amount, string $expenseDate, int $idCategory, int $idUser):bool
+{
+    $query = $pdo->prepare("INSERT INTO expense (title, amount, expense_date, id_category, id_user)
+                            VALUES (:title, :amount, :expense_date, :id_category, :id_user)");
+
+    $query->bindValue(":title", $title, PDO::PARAM_STR);
+    $query->bindValue(":amount", $amount, PDO::PARAM_STR);
+    $query->bindValue(":expense_date", $expenseDate, PDO::PARAM_STR);
+    $query->bindValue(":id_category", $idCategory, PDO::PARAM_INT);
+    $query->bindValue(":id_user", $idUser, PDO::PARAM_INT);
+
+    return $query->execute();
+}

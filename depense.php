@@ -10,7 +10,28 @@ if (!isset($_SESSION['user'])) {
 
 $expenses = getExpenses($pdo, $_SESSION['user']['id_user']);
 $categories = getCategories($pdo);
+$errors = [];
 
+if (isset($_POST['saveExpense'])) {
+    $title = trim($_POST['title']);
+    $amount = (float)$_POST['amount'];
+    $idCategory = (int)$_POST['category'];
+    $date = $_POST['date'];
+
+    if (!is_numeric($amount) || $amount <= 0) {
+        $errors[] = "Le montant doit être un nombre positif.";
+    }
+    if ($title === "") {
+        $errors[] = "Le titre est obligatoire.";
+    }
+    if ($idCategory <= 0) {
+        $errors[] = "La catégorie est obligatoire.";
+    }
+
+    if (!$errors) {
+        $res = saveExpense($pdo, $title, $amount, $date, $idCategory, $_SESSION['user']['id_user']);
+    }
+}
 ?>
 
 <div class="container col-xxl-8 px-4 py-5">
