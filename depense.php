@@ -106,7 +106,6 @@ $expenseTotal = getExpensesTotal($pdo, $_SESSION['user']['id_user']);
                     <td class=" text-right"><?= htmlspecialchars(formatPrice($expenseTotal[0])) ?></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                 </tr>
             </tfoot>
             </tbody>
